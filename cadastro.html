@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cadastro - Portal de Cursos</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">🧾 Cadastro</div>
+      <a class="btn secondary" href="index.html">Voltar</a>
+    </div>
+
+    <div class="card">
+      <label>Nome completo</label>
+      <input id="name" placeholder="Ex: Rony da Informática" />
+
+      <label>CPF (apenas números)</label>
+      <input id="cpf" placeholder="00000000000" inputmode="numeric" />
+
+      <label>Senha</label>
+      <input id="pass" type="password" placeholder="Crie uma senha" />
+
+      <div class="row" style="margin-top:12px;">
+        <!-- IMPORTANTÍSSIMO: type="button" -->
+        <button class="btn" type="button" id="btnCadastrar">Cadastrar</button>
+        <a class="btn secondary" href="login.html">Já tenho conta</a>
+      </div>
+
+      <div id="msg"></div>
+
+      <p class="small" style="margin-top:10px;">
+        ⚠️ Protótipo: os dados ficam salvos no navegador.
+      </p>
+    </div>
+  </div>
+
+  <!-- SCRIPTS NO FINAL DO BODY -->
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const msg = document.getElementById("msg");
+      const toast = (text, ok=true) => {
+        msg.innerHTML = `<div class="toast ${ok?'ok':'err'}">${text}</div>`;
+      };
+
+      document.getElementById("btnCadastrar").addEventListener("click", () => {
+        const name = (document.getElementById("name").value || "").trim();
+        const cpf = normalizeCpf(document.getElementById("cpf").value);
+        const pass = document.getElementById("pass").value || "";
+
+        if (name.length < 3) return toast("Informe seu nome.", false);
+        if (!isValidCpfFormat(cpf)) return toast("CPF inválido: use 11 dígitos.", false);
+        if (pass.length < 4) return toast("Senha muito curta (mín. 4).", false);
+
+        const users = getUsers();
+        if (users.some(u => u.cpf === cpf)) return toast("CPF já cadastrado. Faça login.", false);
+
+        users.push({ name, cpf, pass, createdAt: nowIso() });
+        setUsers(users);
+
+        toast("Cadastro ok! Agora faça login.");
+        setTimeout(() => location.href = "login.html", 700);
+      });
+    });
+  </script>
+</body>
+</html>

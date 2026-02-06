@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal de Cursos</title>
+
+  <!-- CSS SEMPRE NO HEAD -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="brand">📚 Portal de Cursos</div>
+
+      <div class="row">
+        <a class="btn secondary" href="login.html">Entrar</a>
+        <a class="btn" href="cadastro.html">Cadastrar</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Bem-vindo</h2>
+      <p class="small">
+        Plataforma de cursos com login por CPF.
+      </p>
+
+      <div class="row" style="margin-top:15px;">
+        <a class="btn secondary" href="cursos.html">Ver cursos</a>
+        <a class="btn secondary" href="painel.html">Meu painel</a>
+        <a class="btn secondary" href="exportar.html">Exportar conclusões</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ TODOS OS SCRIPTS FICAM AQUI, NO FINAL DO BODY -->
+  <script src="assets/js/app.js"></script>
+  <script>
+    const sess = getSession();
+
+    if (!sess || !sess.cpf) {
+      document.querySelector('a[href="painel.html"]').href = "login.html";
+      document.querySelector('a[href="exportar.html"]').href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

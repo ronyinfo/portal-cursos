@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Login - Portal de Cursos</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">🔐 Login</div>
+      <a class="btn secondary" href="index.html">Voltar</a>
+    </div>
+
+    <div class="card">
+      <label>CPF</label>
+      <input id="cpf" placeholder="00000000000" inputmode="numeric" />
+
+      <label>Senha</label>
+      <input id="pass" type="password" placeholder="Sua senha" />
+
+      <div class="row" style="margin-top:12px;">
+        <button class="btn" id="btnEntrar">Entrar</button>
+        <a class="btn secondary" href="cadastro.html">Criar conta</a>
+      </div>
+
+      <div id="msg"></div>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    const msg = document.getElementById("msg");
+    const toast = (text, ok=true) => {
+      msg.innerHTML = `<div class="toast ${ok?'ok':'err'}">${text}</div>`;
+    };
+
+    document.getElementById("btnEntrar").onclick = () => {
+      const cpf = normalizeCpf(document.getElementById("cpf").value);
+      const pass = document.getElementById("pass").value || "";
+
+      if(!isValidCpfFormat(cpf)) return toast("CPF inválido: use 11 dígitos.", false);
+
+      const users = getUsers();
+      const user = users.find(u => u.cpf === cpf);
+      if(!user) return toast("CPF não cadastrado.", false);
+      if(user.pass !== pass) return toast("Senha incorreta.", false);
+
+      setSession({ cpf, loginAt: nowIso() });
+      location.href = "painel.html";
+    };
+  </script>
+</body>
+</html>

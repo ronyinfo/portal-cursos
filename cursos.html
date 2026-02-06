@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cursos - Portal de Cursos</title>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">🎓 Cursos</div>
+      <div class="row">
+        <a class="btn secondary" href="index.html">Home</a>
+        <a class="btn secondary" href="painel.html">Meu painel</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="small" id="info"></p>
+      <div class="hr"></div>
+      <div id="list" class="list"></div>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    const sess = getSession();
+    document.getElementById("info").textContent =
+      sess?.cpf ? `Logado como ${sess.cpf}.` : "Você pode ver os cursos sem login, mas para matricular precisa entrar.";
+
+    const list = document.getElementById("list");
+
+    for(const c of COURSES){
+      const st = sess?.cpf ? userCourseState(sess.cpf, c.id) : { status:"none" };
+
+      let action = "";
+      if(!sess?.cpf){
+        action = `<a class="btn" href="login.html">Entrar para matricular</a>`;
+      } else if(st.status === "none"){
+        action = `<button class="btn" onclick="doEnroll('${c.id}')">Matricular</button>`;
+      } else if(st.status === "enrolled"){
+        action = `<button class="btn" onclick="doComplete('${c.id}')">Concluir</button>`;
+      } else {
+        action = `<a class="btn secondary" href="exportar.html">Exportar</a>`;
+      }
+
+      const el = document.createElement("div");
+      el.className = "item";
+      el.innerHTML = `
+        <h3>${c.title} <span class="badge">${c.hours}h</span></h3>
+        <p>${c.desc}</p>
+        ${sess?.cpf && st.status!=="none" ? `<p class="small" style="margin-top:8px;">Período: ${formatDateBR(st.periodStart)} → ${formatDateBR(st.periodEnd)}</p>` : ""}
+        <div class="row" style="margin-top:10px; justify-content:space-between;">
+          <div class="row">
+            <span class="badge">Status: ${st.status}</span>
+          </div>
+          <div class="row">${action}</div>
+        </div>
+      `;
+      list.appendChild(el);
+    }
+
+    function doEnroll(courseId){
+      const r = enrollCourse(sess.cpf, courseId);
+      alert(r.msg);
+      location.reload();
+    }
+    function doComplete(courseId){
+      const r = completeCourse(sess.cpf, courseId);
+      alert(r.ok ? `${r.msg}\nID: ${r.completionId}` : r.msg);
+      location.reload();
+    }
+  </script>
+</body>
+</html>

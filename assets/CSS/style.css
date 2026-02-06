@@ -1,0 +1,27 @@
+:root { --bg:#0b1220; --card:#0f1b34; --txt:#e9eefc; --muted:#a9b4d0; --acc:#4f8cff; --danger:#ff5a6a; }
+*{ box-sizing:border-box; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+body{ margin:0; background:linear-gradient(180deg,#070c16,#0b1220); color:var(--txt); }
+a{ color:var(--acc); text-decoration:none; }
+.container{ max-width:980px; margin:0 auto; padding:22px; }
+.header{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 0; }
+.brand{ font-weight:800; letter-spacing:.3px; }
+.card{ background:rgba(15,27,52,.92); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,.25); }
+.grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+@media(min-width:820px){ .grid{ grid-template-columns: 1.2fr .8fr; } }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.10); background:rgba(79,140,255,.14); color:var(--txt); cursor:pointer; font-weight:650; }
+.btn:hover{ background:rgba(79,140,255,.22); }
+.btn.secondary{ background:rgba(255,255,255,.06); }
+.btn.danger{ background:rgba(255,90,106,.14); border-color:rgba(255,90,106,.25); }
+.row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+input, select{ width:100%; padding:11px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.06); color:var(--txt); outline:none; }
+label{ font-size:.92rem; color:var(--muted); display:block; margin:10px 0 6px; }
+.small{ font-size:.92rem; color:var(--muted); }
+.hr{ height:1px; background:rgba(255,255,255,.08); margin:14px 0; }
+.badge{ display:inline-flex; padding:4px 10px; border-radius:999px; font-size:.84rem; background:rgba(255,255,255,.08); color:var(--muted); border:1px solid rgba(255,255,255,.10); }
+.list{ display:flex; flex-direction:column; gap:10px; }
+.item{ padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); }
+.item h3{ margin:0 0 6px; font-size:1.02rem; }
+.item p{ margin:0; color:var(--muted); }
+.toast{ margin-top:10px; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.05); }
+.toast.ok{ border-color:rgba(79,255,160,.30); }
+.toast.err{ border-color:rgba(255,90,106,.30); }
